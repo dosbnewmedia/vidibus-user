@@ -10,7 +10,7 @@ describe 'warden callback :after_set_user' do
   end
 
   it 'should validate the SSO session' do
-    pending
+    skip
     run_app(app, env)
   end
 end

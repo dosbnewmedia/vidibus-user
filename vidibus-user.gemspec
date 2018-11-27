@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rack'
   s.add_development_dependency 'webmock'
+  s.add_development_dependency 'database_cleaner'
 
   s.files = Dir.glob('{lib,app,config}/**/*') + %w[README.md Rakefile]
   s.require_path = 'lib'

@@ -6,6 +6,7 @@ end
 $:.unshift File.expand_path('../../', __FILE__)
 
 require 'rubygems'
+require 'active_support'
 require 'active_support/core_ext'
 require 'rack'
 require 'rspec'
@@ -13,6 +14,7 @@ require 'rr'
 require 'mongoid'
 require 'webmock/rspec'
 require 'ostruct'
+require "database_cleaner"
 
 require 'vidibus-user'
 require 'app/models/user'
@@ -22,11 +24,22 @@ Mongoid.configure do |config|
   config.connect_to('vidibus-user_test')
 end
 
+Mongo::Logger.logger.level = Logger::INFO
+
 RSpec.configure do |config|
+
   config.include WebMock::API
   config.mock_with :rr
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.before(:each) do
-    Mongoid::Sessions.default.collections.
-      select {|c| c.name !~ /system/}.each(&:drop)
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 end

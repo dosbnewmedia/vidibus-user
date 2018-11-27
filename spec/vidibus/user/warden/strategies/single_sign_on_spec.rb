@@ -43,7 +43,7 @@ describe 'single sign-on strategy' do
 
     it 'should use the URL of the OAuth2 client' do
       mock(strategy.client.auth_code)
-        .authorize_url(redirect_url: redirect_url) { true }
+        .authorize_url(redirect_url: redirect_url) { "true" }
       strategy._run!
     end
 
@@ -207,12 +207,12 @@ describe 'single sign-on strategy' do
   describe '#valid?' do
     it 'should return true if a realm is given' do
       stub(strategy).realm { '123' }
-      strategy.valid?.should be_true
+      strategy.valid?.should be_truthy
     end
 
     it 'should return false if no realm is given' do
       stub(strategy).realm { nil }
-      strategy.valid?.should be_false
+      strategy.valid?.should be_falsey
     end
   end
 

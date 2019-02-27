@@ -43,7 +43,7 @@ Warden::Strategies.add(:connector) do
     redirect_url = "#{host}/authenticate_user?realm=#{realm}"
 
     args = {:redirect_url => redirect_url}
-    Rails.logger.error("authenticate! with args: #{args.inspect}")
+    Rails.logger.error("authenticate! with args: #{args.inspect} #{env['HTTP_HOST']}:#{env['SERVER_PORT']}")
     # Fetch code first
     return redirect!(client.web_server.authorize_url(args)) unless code
 
@@ -76,6 +76,6 @@ Warden::Strategies.add(:connector) do
 
   # Returns protocol depending on SERVER_PORT.
   def protocol
-    env["SERVER_PORT"] == 443 ? "https://" : "http://"
+    env["SERVER_PORT"].to_i == 443 ? "https://" : "http://"
   end
 end
